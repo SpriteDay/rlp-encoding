@@ -33,3 +33,5 @@ impl std::fmt::Display for RlpError {
         }
     }
 }
+
+impl std::error::Error for RlpError {}
