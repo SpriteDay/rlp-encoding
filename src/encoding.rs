@@ -8,7 +8,18 @@ use crate::{
     types::RlpItem::{self, Bytes, List},
 };
 
-/// Encodes an `RlpItem` into its RLP byte representation
+/// Encodes an [`RlpItem`] into its RLP byte representation.
+///
+/// ```
+/// use rlp_encoding::{encode, RlpItem};
+///
+/// let item = RlpItem::List(vec![
+///     RlpItem::Bytes(b"cat".to_vec()),
+///     RlpItem::Bytes(b"dog".to_vec()),
+/// ]);
+/// let encoded = encode(&item);
+/// assert_eq!(encoded, vec![0xC8, 0x83, b'c', b'a', b't', 0x83, b'd', b'o', b'g']);
+/// ```
 pub fn encode(item: &RlpItem) -> Vec<u8> {
     match item {
         Bytes(bytes) => convert_string(bytes),
@@ -54,7 +65,17 @@ fn convert_string(input: &[u8]) -> Vec<u8> {
     result
 }
 
-/// Accepts only unsigned integers
+/// Trims leading zero bytes from an unsigned integer's big-endian representation.
+///
+/// ```
+/// use rlp_encoding::trim_integer;
+///
+/// assert_eq!(trim_integer(0_u32), vec![]);
+/// assert_eq!(trim_integer(255_u32), vec![0xFF]);
+/// assert_eq!(trim_integer(256_u32), vec![0x01, 0x00]);
+/// ```
+///
+/// Only accepts unsigned integers:
 /// ```compile_fail
 /// use rlp_encoding::trim_integer;
 /// trim_integer(-1_i32); // ~ the trait bound `i32: Unsigned` is not satisfied

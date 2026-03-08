@@ -6,7 +6,17 @@ use crate::{
     types::RlpItem,
 };
 
-/// Decodes RLP-encoded byte slice into an `RlpItem`
+/// Decodes an RLP-encoded byte slice into an [`RlpItem`].
+///
+/// ```
+/// use rlp_encoding::{decode, RlpItem};
+///
+/// let decoded = decode(&[0xC8, 0x83, b'c', b'a', b't', 0x83, b'd', b'o', b'g']);
+/// assert_eq!(decoded, RlpItem::List(vec![
+///     RlpItem::Bytes(b"cat".to_vec()),
+///     RlpItem::Bytes(b"dog".to_vec()),
+/// ]));
+/// ```
 pub fn decode(data: &[u8]) -> RlpItem {
     decode_inner(data).0
 }
