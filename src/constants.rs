@@ -1,0 +1,5 @@
+pub const SHORT_STRING_BASE_PREFIX: u8 = 0x80;
+pub const LONG_STRING_BASE_PREFIX: u8 = 0xB7;
+
+pub const SHORT_LIST_BASE_PREFIX: u8 = 0xC0;
+pub const LONG_LIST_BASE_PREFIX: u8 = 0xF7;
