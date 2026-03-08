@@ -14,3 +14,22 @@ pub enum RlpItem {
     Bytes(Vec<u8>),
     List(Vec<RlpItem>),
 }
+
+#[derive(Debug)]
+pub enum RlpError {
+    InvalidPrefix(u8),
+    UnexpectedEnd { expected: usize, got: usize },
+    EmptyInput,
+}
+
+impl std::fmt::Display for RlpError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::InvalidPrefix(b) => write!(f, "Invalid RLP prefix: 0x{b:02X}"),
+            Self::UnexpectedEnd { expected, got } => {
+                write!(f, "Expected {expected} bytes, got: {got}")
+            }
+            Self::EmptyInput => write!(f, "Got empty input"),
+        }
+    }
+}
