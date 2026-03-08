@@ -54,7 +54,11 @@ fn convert_string(input: &[u8]) -> Vec<u8> {
 }
 
 /// Accepts only unsigned integers
-fn trim_integer<T: PrimInt + Unsigned + ToBytes>(num: T) -> Vec<u8> {
+/// ```compile_fail
+/// use rlp_encoding::trim_integer;
+/// trim_integer(-1_i32); // ~ the trait bound `i32: Unsigned` is not satisfied
+/// ```
+pub fn trim_integer<T: PrimInt + Unsigned + ToBytes>(num: T) -> Vec<u8> {
     let bytes = num.to_be_bytes();
     bytes
         .as_ref()
