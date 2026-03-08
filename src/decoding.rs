@@ -6,6 +6,7 @@ use crate::{
     types::RlpItem,
 };
 
+/// Decodes RLP-encoded byte slice into an `RlpItem`
 pub fn decode(data: &[u8]) -> RlpItem {
     decode_inner(data).0
 }

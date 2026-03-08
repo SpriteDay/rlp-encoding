@@ -8,6 +8,7 @@ use crate::{
     types::RlpItem::{self, Bytes, List},
 };
 
+/// Encodes an `RlpItem` into its RLP byte representation
 pub fn encode(item: &RlpItem) -> Vec<u8> {
     match item {
         Bytes(bytes) => convert_string(bytes),
