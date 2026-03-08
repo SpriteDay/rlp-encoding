@@ -20,6 +20,7 @@ pub enum RlpError {
     InvalidPrefix(u8),
     UnexpectedEnd { expected: usize, got: usize },
     EmptyInput,
+    TrailingBytes { consumed: usize, total: usize },
 }
 
 impl std::fmt::Display for RlpError {
@@ -30,6 +31,10 @@ impl std::fmt::Display for RlpError {
                 write!(f, "Expected {expected} bytes, got: {got}")
             }
             Self::EmptyInput => write!(f, "Got empty input"),
+            Self::TrailingBytes { consumed, total } => write!(
+                f,
+                "Got trailing bytes, consumed: {consumed}, total: {total}"
+            ),
         }
     }
 }

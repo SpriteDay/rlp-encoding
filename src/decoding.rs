@@ -19,7 +19,14 @@ use crate::{
 /// ]));
 /// ```
 pub fn decode(data: &[u8]) -> Result<RlpItem, RlpError> {
-    decode_inner(data).map(|(item, _)| item)
+    let (decoded, consumed) = decode_inner(data)?;
+    if data.len() > consumed {
+        return Err(RlpError::TrailingBytes {
+            consumed,
+            total: data.len(),
+        });
+    };
+    Ok(decoded)
 }
 
 fn decode_inner(data: &[u8]) -> Result<(RlpItem, usize), RlpError> {
